@@ -1,5 +1,0 @@
-def bar():
-    return False
-
-def foo():
-    return True
