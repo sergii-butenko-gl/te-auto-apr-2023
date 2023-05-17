@@ -29,8 +29,8 @@ def test_emoji_could_be_retrived():
 
 
 @pytest.fixture(scope='module')
-def list_of_emojis(git_hub_api_client):
-    yield git_hub_api_client.get_emojis()
+def list_of_emojis(fixture_git_hub_api_client):
+    yield fixture_git_hub_api_client.get_emojis()
 
 def test_emoji_could_be_retrived_2(list_of_emojis):
     assert len(list_of_emojis) != 0
