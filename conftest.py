@@ -30,3 +30,22 @@ def fixture_git_hub_api_client():
     yield api
 
     api.logout()
+
+
+@pytest.fixture(scope='module')
+def fixture_git_hub_api_client_search_repo():
+    api = GitHubAPIClient()
+    api.login(Config.get_property("USERNAME"), Config.get_property("PASSWORD"))
+
+    yield api.search_repo
+
+    api.logout()
+
+
+
+@pytest.fixture
+def data_provider():
+    def _(type_of_data):
+        API_DATA.get_date(type_of_data)
+
+    yield _

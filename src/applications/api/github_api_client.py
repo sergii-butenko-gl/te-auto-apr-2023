@@ -19,10 +19,10 @@ class GitHubAPIClient:
     def logout(self):
         print("DO LOGOUT")
 
-    def search_repo(self, repo_name):
+    def search_repo(self, repo_name, per_page=30):
         """
         Search repository by a repo_name param
-        Return list of repos
+        Return list of repos name of existing repos
         """
         # sendgin the request
         r = requests.get(
@@ -33,18 +33,22 @@ class GitHubAPIClient:
             },
             # add query parameter
             params={
-                'q': repo_name
+                'q': repo_name,
+                'per_page': per_page
             },
         )
         print("Get Search Repo Response Status Code:", r.status_code)
 
-        # throw an error if response is not 2xx
+        # throw an error if response is not 2xx and 3xx
+        # optional
         r.raise_for_status()
         
         # get body
         body = r.json()
 
-        return body['items']
+        body_repo_names = [x['name'] for x in body['items']]
+        
+        return body_repo_names
     
     def get_emojis(self):
         """
