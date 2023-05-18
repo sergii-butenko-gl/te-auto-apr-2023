@@ -19,6 +19,33 @@ class GitHubAPIClient:
     def logout(self):
         print("DO LOGOUT")
 
+    def search_repo(self, repo_name):
+        """
+        Search repository by a repo_name param
+        Return list of repos
+        """
+        # sendgin the request
+        r = requests.get(
+            url=f"{Config.get_property('API_BASE_URL')}/search/repositories",
+            headers={
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            },
+            # add query parameter
+            params={
+                'q': repo_name
+            },
+        )
+        print("Get Search Repo Response Status Code:", r.status_code)
+
+        # throw an error if response is not 2xx
+        r.raise_for_status()
+        
+        # get body
+        body = r.json()
+
+        return body['items']
+    
     def get_emojis(self):
         """
             Get list of available emojis in github sustem

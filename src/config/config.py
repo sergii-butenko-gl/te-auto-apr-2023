@@ -9,6 +9,7 @@ class Config():
     def get_property(name):
         # define the env
         target = os.environ.get('TARGET', Config.DEFAULT_ENV)
+        # target = os.environ['TARGET']
 
         # read the proper json file
         path_to_config = f"./env_config/{target}.json"
