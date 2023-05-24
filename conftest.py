@@ -2,6 +2,8 @@ import pytest
 from src.user import User
 from src.applications.api.github_api_client import GitHubAPIClient
 from src.config.config import Config
+from selenium import webdriver
+
 
 @pytest.fixture(scope='session')  # session|package|module|class|function
 def user_fixture():
@@ -44,8 +46,21 @@ def fixture_git_hub_api_client_search_repo():
 
 
 @pytest.fixture
-def data_provider():
-    def _(type_of_data):
-        API_DATA.get_date(type_of_data)
+def wed_driver():
+    # created a driver
+    driver = webdriver.Chrome()
 
-    yield _
+    yield driver
+
+    driver.quit()
+
+
+@pytest.fixture
+def github_ui():
+    browser_name = 'chrome'
+    github_app = GithubApp()
+    github_app.launch_browser(browser_name)
+
+    yield github_app
+
+    github_app.close_browser()
